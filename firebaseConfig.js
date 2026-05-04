@@ -1,17 +1,17 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore"; // Add this import
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyBusyN-yRkHou80LkVrvsi9cnMFcG1lKWg",
   authDomain: "jgm-sense.firebaseapp.com",
   projectId: "jgm-sense",
-  storageBucket: "jgm-sense.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef"
+  storageBucket: "jgm-sense.firebasestorage.app",
+  messagingSenderId: "73095207538",
+  appId: "1:73095207538:web:72c59b2561afcd661540eb"
 };
 
-// INITIALIZE FIREBASE
 const app = initializeApp(firebaseConfig);
 
-// EXPORT AUTH (The 'export' keyword is the most important part!)
 export const auth = getAuth(app);
+export const db = getFirestore(app); // Export this to save user details later

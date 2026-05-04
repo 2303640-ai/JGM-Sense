@@ -1,152 +1,145 @@
-import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { ActivityIndicator, Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+// updatePassword handles the secure credential change in Firebase Auth
+import { updatePassword } from 'firebase/auth';
+import { auth } from '../../firebaseConfig';
 
-const { width } = Dimensions.get('window');
+import { useTheme } from '../../context/ThemeContext';
 
-export default function Dashboard() {
+export default function ChangePasswordScreen() {
+  const router = useRouter();
+  const { theme } = useTheme();
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  /**
+   * CHANGE PASSWORD LOGIC:
+   * Validates matching fields and interacts with Firebase Auth.
+   */
+  const handleChangePassword = async () => {
+    if (!newPassword || !confirmPassword) {
+      Alert.alert("Error", "Please fill in all fields.");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match.");
+      return;
+    }
+
+    setLoading(true);
+    const user = auth.currentUser;
+
+    if (user) {
+      try {
+        await updatePassword(user, newPassword);
+        Alert.alert("Success", "Your JGM-Sense password has been updated!", [
+          { text: "OK", onPress: () => router.replace('/(tabs)/profile')}
+        ]);
+      } catch (error: any) {
+        // Firebase often requires a 'recent login' for sensitive changes
+        Alert.alert("Action Failed", error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   return (
-    // 1. FULL SCREEN BACKGROUND GRADIENT
-    <LinearGradient 
-      colors={['#FFDDE1', '#EE9CA7']} 
-      style={styles.backgroundGradient}
-    >
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        
-        {/* HEADER SECTION */}
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.todayText}>Today</Text>
-            <Text style={styles.dateText}>28 April</Text>
-          </View>
-          <TouchableOpacity style={styles.profileCircle}>
-             {/* Profile icon placeholder */}
-             <View style={styles.innerProfile} />
-          </TouchableOpacity>
-        </View>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      {/* Back Button matching your Profile UI */}
+      <TouchableOpacity onPress={() => router.replace('/(tabs)/profile')} style={[styles.backButton, { backgroundColor: theme.itemBg }]}>
+        <Ionicons name="chevron-back" size={24} color="#000" />
+      </TouchableOpacity>
 
-        {/* 2. REMINDER CARD (Glass Style) */}
-        <View style={styles.glassCard}>
-          <View style={styles.reminderRow}>
-            <View>
-               <Text style={styles.reminderTitle}>OINK! REMINDER</Text>
-               <Text style={styles.reminderSub}>Farrowing Date: April 25-27</Text>
-            </View>
-            <TouchableOpacity style={styles.openBtn}>
-              <Text style={styles.btnText}>Open</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+      {/* Logo/Avatar Section */}
+              <View>
+                  <Image
+                    source={require('./Lock.png')} 
+                    style={styles.logoImage}
+                    resizeMode="contain"
+                  />
+                </View>
 
-        {/* 3. CAMERA FEED CARDS */}
-        <View style={styles.cameraCard}>
-          <Image source={{ uri: 'https://via.placeholder.com/400x200' }} style={styles.cameraImage} />
-          <View style={styles.badge}><Text style={styles.badgeText}>Farrowing Area</Text></View>
-        </View>
+        <Text style={[styles.title, {alignSelf:'center'}, {fontSize: 30}, { color: theme.headerText } ]}>Change Password</Text>
+        <Text style={[styles.subtitle, { color: theme.sectionTitle }]}>
+          Want a fresh start? Update your JGM-Sense password.
+        </Text>
 
-        <View style={styles.cameraCard}>
-          <Image source={{ uri: 'https://via.placeholder.com/400x200' }} style={styles.cameraImage} />
-          <View style={styles.badge}><Text style={styles.badgeText}>Brooding Area</Text></View>
-        </View>
+        {/* Form Fields Section */}
+        <TextInput 
+          style={[styles.input, { backgroundColor: theme.sectionBg }]}
+          placeholder="Current Password" 
+          secureTextEntry
+          value={currentPassword}
+          onChangeText={setCurrentPassword}
+          placeholderTextColor="#888"
+        />
 
-        {/* 4. REAL-TIME TEMPERATURE CARD */}
-        <LinearGradient colors={['#FFD200', '#F7971E']} style={styles.tempCard}>
-          <View style={styles.tempRow}>
-            <Text style={styles.tempLabel}>Real Time Temperature</Text>
-            <Text style={styles.tempValue}>40°</Text>
-          </View>
-          <TouchableOpacity style={styles.overrideBtn}>
-            <Text style={styles.overrideText}>Override</Text>
-          </TouchableOpacity>
-        </LinearGradient>
-        
-        {/* BOTTOM SPACING */}
-        <View style={{ height: 100 }} /> 
-      </ScrollView>
-    </LinearGradient>
+        <TextInput 
+          style={[styles.input, { backgroundColor: theme.sectionBg }]}
+          placeholder="New Password" 
+          secureTextEntry
+          value={newPassword}
+          onChangeText={setNewPassword}
+          placeholderTextColor="#888"
+        />
+
+        <TextInput 
+          style={[styles.input, { backgroundColor: theme.sectionBg }]}
+          placeholder="Confirm Password" 
+          secureTextEntry
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          placeholderTextColor="#888"
+        />
+
+        {/* Footer Action */}
+        <TouchableOpacity 
+          style={[styles.confirmButton, { backgroundColor: theme.itemBg }]} 
+          onPress={handleChangePassword}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.confirmText}>CONFIRM CHANGE</Text>
+          )}
+        </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  backgroundGradient: {
-    flex: 1,
+  container: { flex: 1, backgroundColor: '#FCEBF0', padding: 30 },
+  backButton: { 
+    backgroundColor: '#C4A4A4', width: 40, height: 40, 
+    borderRadius: 20, justifyContent: 'center', alignItems: 'center', marginTop: 30 
   },
-  container: { 
-    flex: 1, 
-    paddingHorizontal: 20 
+  logoImage: { 
+    width: 250, 
+    height: 250,
+    marginBottom: 10,
+    alignSelf: 'center',
   },
-  header: { 
-    flexDirection: 'row', 
-    justifyContent: 'space-between', 
-    alignItems: 'center',
-    marginBottom: 20, 
-    marginTop: 50 
+  content: { alignItems: 'center', marginTop: 10 },
+  imagePlaceholder: { width: 150, height: 150, marginBottom: 10, justifyContent: 'center', alignItems: 'center' },
+  title: { fontSize: 28, fontWeight: 'bold', color: '#000' },
+  subtitle: { 
+    textAlign: 'center', color: '#555', marginVertical: 15, 
+    paddingHorizontal: 20, fontSize: 14, fontWeight: '500' 
   },
-  todayText: { fontSize: 28, fontWeight: 'bold', color: '#333' },
-  dateText: { color: '#666', fontSize: 16 },
-  profileCircle: { 
-    width: 45, 
-    height: 45, 
-    borderRadius: 22.5, 
-    backgroundColor: '#fff',
-    padding: 3,
-    elevation: 3
+  input: { 
+    backgroundColor: '#ffffff', width: '100%', height: 55, 
+    borderRadius: 15, paddingHorizontal: 20, marginBottom: 15, elevation: 2 
   },
-  innerProfile: { flex: 1, borderRadius: 20, backgroundColor: '#FFDDE1' },
-  
-  // Glassmorphism card for the reminder
-  glassCard: { 
-    padding: 20, 
-    borderRadius: 25, 
-    marginBottom: 20, 
-    backgroundColor: 'rgba(255, 255, 255, 0.4)', // Transparent white
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.5)'
+  confirmButton: { 
+    backgroundColor: '#B68A8A', width: '100%', height: 60, 
+    borderRadius: 30, justifyContent: 'center', alignItems: 'center', marginTop: 20 
   },
-  
-  reminderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  reminderTitle: { fontSize: 18, fontWeight: '900', color: '#D81B60' },
-  reminderSub: { color: '#82103e', marginTop: 2, fontWeight: '500' },
-  openBtn: { backgroundColor: '#D81B60', paddingHorizontal: 15, paddingVertical: 8, borderRadius: 20 },
-  btnText: { color: '#fff', fontWeight: 'bold' },
-  
-  cameraCard: { 
-    borderRadius: 25, 
-    overflow: 'hidden', 
-    marginBottom: 20, 
-    elevation: 8,
-    backgroundColor: '#000' 
-  },
-  cameraImage: { width: '100%', height: 210, opacity: 0.9 },
-  badge: { 
-    position: 'absolute', 
-    top: 15, 
-    right: 15, 
-    backgroundColor: 'rgba(0,0,0,0.6)', 
-    paddingHorizontal: 12, 
-    paddingVertical: 6, 
-    borderRadius: 15 
-  },
-  badgeText: { color: '#fff', fontSize: 12, fontWeight: 'bold' },
-  
-  tempCard: { 
-    padding: 25, 
-    borderRadius: 25, 
-    flexDirection: 'row', 
-    justifyContent: 'space-between', 
-    alignItems: 'center',
-    elevation: 10 
-  },
-  tempLabel: { color: '#fff', fontSize: 18, fontWeight: 'bold', width: '50%' },
-  tempValue: { fontSize: 55, fontWeight: 'bold', color: '#fff' },
-  overrideBtn: { 
-    backgroundColor: 'rgba(255,255,255,0.3)', 
-    paddingHorizontal: 15, 
-    paddingVertical: 10, 
-    borderRadius: 15,
-    position: 'absolute',
-    bottom: 15,
-    right: 15
-  },
-  overrideText: { color: '#fff', fontWeight: 'bold', fontSize: 12 },
+  confirmText: { color: 'white', fontWeight: 'bold', fontSize: 16, letterSpacing: 1 }
 });
