@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 // FIREBASE & AUTH PROVIDERS
-import * as AuthSession from 'expo-auth-session';
+import * as AuthSession from "expo-auth-session";
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import { GoogleAuthProvider, signInWithCredential, signInWithEmailAndPassword } from 'firebase/auth';
@@ -18,11 +18,14 @@ export default function LoginScreen() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
+  console.log(AuthSession.makeRedirectUri({ native: "jgm-sense://redirect" }));
+
 
   // GOOGLE SIGN-IN LOGIC
   const [request, response, promptAsync] = Google.useAuthRequest({
     // Keep your Web Client ID from Firebase
-    webClientId: '73095207538-ecmjc246vijc6tb0s2shavfjrt7i32es.apps.googleusercontent.com',
+    webClientId: '626334293602-7pj6k400j6nmsv7qmgl3etsd9mgka1o6.apps.googleusercontent.com',
 
     // Add the iOS Client ID specifically for your mobile device
     iosClientId: '626334293602-e5us5lmqfa3vs7qfsd1ck2kq1ioop08c.apps.googleusercontent.com',
@@ -30,9 +33,12 @@ export default function LoginScreen() {
     // Add the Android Client ID specifically for your mobile device
     androidClientId: '626334293602-98v608vdin0jmel65gl9tnc24r5n5cvf.apps.googleusercontent.com',
 
-    // Uses the 'jgmsense' scheme from your app.json
+    // Uses the 'jgm-sense' scheme from your app.json
     redirectUri: AuthSession.makeRedirectUri({
-      scheme: 'jgmsense'}),
+  native: "jgm-sense://redirect", // for standalone builds
+})
+
+
 
   });
 
@@ -110,12 +116,15 @@ export default function LoginScreen() {
           <View style={styles.line} />
         </View>
 
+        {/* Social Authentication: Google Sign-in */}
         <TouchableOpacity 
           style={styles.googleButton} 
           disabled={!request}
-          onPress={() => promptAsync()} 
-        >
-          <View style={styles.googleIconPlaceholder} /> 
+          onPress={() => { 
+          // ADD THE OBJECT HERE
+          promptAsync({ showInRecents: true }); 
+        }}>
+        <View style={styles.googleIconPlaceholder} /> 
           <Text style={styles.googleButtonText}>Sign in with Google</Text>
         </TouchableOpacity>
 

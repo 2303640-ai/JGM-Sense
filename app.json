@@ -5,9 +5,10 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "jgmsense",
+    "scheme": "jgm-sense",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "owners": "jgm-sense",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.jgmsense.app"

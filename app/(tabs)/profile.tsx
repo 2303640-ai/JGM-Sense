@@ -101,7 +101,7 @@ export default function ProfileScreen() {
 
         <TouchableOpacity 
           style={[styles.actionButton, { backgroundColor: theme.itemBg }]}
-          onPress={() => Alert.alert("Recovery", "Recovery email feature is being initialized.")}
+          onPress={() => router.replace('/recovery-email')}
         >
           <Text style={[styles.actionText, { color: theme.text }]}>Add Recovery Email</Text>
           <Ionicons name="pencil" size={18} color="white" />
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   footer: { flex: 1, justifyContent: 'flex-end', marginBottom: 40 },
   termsRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 25 },
   line: { flex: 1, height: 1, backgroundColor: '#999' },
-  termsText: { marginHorizontal: 15, color: '#666', fontSize: 14, marginVertical: 10 },
+  termsText: { marginHorizontal: 15, color: '#3b3b3b', fontSize: 14, marginVertical: 10 },
   confirmButton: { backgroundColor: '#B68A8A', paddingVertical: 18, borderRadius: 30, alignItems: 'center', marginBottom: 50 },
   confirmText: { color: 'white', fontWeight: 'bold', fontSize: 16, letterSpacing: 1, padding: 5 },
 });

@@ -14,9 +14,12 @@ import {
     View
 } from 'react-native';
 
+import { useTheme } from '../../context/ThemeContext';
+
 export default function RecoveryEmailScreen() {
   const router = useRouter();
-  
+  const { theme } = useTheme();
+
   // State 1: Email Entry | State 2: OTP Verification
   const [step, setStep] = useState(1); 
   const [email, setEmail] = useState('');
@@ -43,15 +46,15 @@ export default function RecoveryEmailScreen() {
   return (
     <KeyboardAvoidingView 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
-      style={styles.container}
+      style={[styles.container, { backgroundColor: theme.background }]}
     >
       <StatusBar barStyle="dark-content" />
       
       {/* Top Header Row for the Back Button */}
       <View style={styles.header}>
         <TouchableOpacity 
-          onPress={() => step === 1 ? router.back() : setStep(1)} 
-          style={styles.backButton}
+          onPress={() => router.replace('/(tabs)/profile')} 
+          style={[styles.backButton, { backgroundColor: theme.itemBg }]}
         >
           <Ionicons name="chevron-back" size={24} color="#000" />
         </TouchableOpacity>
@@ -59,7 +62,7 @@ export default function RecoveryEmailScreen() {
 
       {step === 1 ? (
         /* --- SCREEN 1: ADD RECOVERY EMAIL --- */
-        <View style={styles.content}>
+        <View style={[styles.content, { backgroundColor: theme.background }]}>
           {/* Using the Pig Logo consistent with JGM-Sense branding */}
           <Image 
             source={require('./Mail.png')} 
@@ -67,12 +70,12 @@ export default function RecoveryEmailScreen() {
             resizeMode="contain"
           />
           
-          <Text style={styles.title}>Add Recovery Email</Text>
+          <Text style={[styles.title, { color: theme.headerText}]}>Add Recovery Email</Text>
           <Text style={styles.description}>
             Need to add recovery email? You can do it here.
           </Text>
           
-          <View style={styles.inputWrapper}>
+          <View style={[styles.inputWrapper, { backgroundColor: theme.itemBg }]}>
             <TextInput
               placeholder="Email"
               placeholderTextColor="#999"
@@ -84,19 +87,19 @@ export default function RecoveryEmailScreen() {
             />
           </View>
 
-          <TouchableOpacity style={styles.mainButton} onPress={handleEmailSubmit}>
-            <Text style={styles.buttonText}>CONFIRM CHANGE</Text>
+          <TouchableOpacity style={[styles.mainButton, { backgroundColor: theme.itemBg }]} onPress={handleEmailSubmit}>
+            <Text style={[styles.buttonText, { color: theme.text }]}>CONFIRM CHANGE</Text>
           </TouchableOpacity>
         </View>
       ) : (
         /* --- SCREEN 2: VERIFICATION --- */
-        <View style={styles.content}>
+        <View style={[styles.content, { backgroundColor: theme.background }]}>
           <Image 
             source={require('./Mail.png')} 
             style={styles.illustration}
             resizeMode="contain"
           />
-          <Text style={styles.title}>Verification</Text>
+          <Text style={[styles.title, { color: theme.headerText }]}>Verification</Text>
           <Text style={styles.description}>
             Please enter the code we sent to{"\n"}
             <Text style={{ fontWeight: 'bold' }}>{email}</Text>
@@ -122,8 +125,8 @@ export default function RecoveryEmailScreen() {
             <Text style={styles.resendText}>I didn't receive a code</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.mainButton} onPress={handleVerifyCode}>
-            <Text style={styles.buttonText}>ENTER CODE</Text>
+          <TouchableOpacity style={[styles.mainButton, { backgroundColor: theme.itemBg }]} onPress={handleVerifyCode}>
+            <Text style={[styles.buttonText, { color: theme.text }]}>ENTER CODE</Text>
           </TouchableOpacity>
         </View>
       )}

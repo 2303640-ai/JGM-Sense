@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useRouter } from 'expo-router';
 
 import { useTheme } from '../../context/ThemeContext';
 
@@ -13,11 +14,12 @@ const notificationsData = [
 
 export default function Dashboard() {
   const theme = useTheme();
+  const router = useRouter();
   // State to toggle the notification dropdown
   const [showNotifications, setShowNotifications] = useState(false);
 
   return (
-    <View style={[styles.mainContainer, { backgroundColor: theme.background }]}>
+    <View style={[styles.mainContainer]}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         
         {/* Header Area */}
@@ -99,7 +101,7 @@ export default function Dashboard() {
             <View style={styles.datePill}>
               <Text style={styles.datePillText}>Farrowing Date:{('\n')} April 25-27</Text>
             </View>
-              <TouchableOpacity style={styles.openBtn}>
+              <TouchableOpacity style={styles.openBtn} onPress={() => router.replace('/(tabs)/GestationManagement')}>
                 <Text style={styles.btnText}>Open</Text>
               </TouchableOpacity>
             </View>

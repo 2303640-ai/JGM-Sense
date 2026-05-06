@@ -27,7 +27,6 @@ export default function SignupScreen() {
    */
   const [firstname, setFname] = useState('');
   const [lastname, setLname] = useState('');
-  const [phone, setPhone] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,7 +39,7 @@ export default function SignupScreen() {
    */
   const handleRegister = async () => {
     // Basic Client-Side Validation
-    if (!firstname || !lastname || !phone ||!email || !password || !confirmPassword) {
+    if (!firstname || !lastname || !username || !email || !password || !confirmPassword) {
       Alert.alert("Error", "Please fill in all required fields.");
       return;
     }
@@ -135,7 +134,6 @@ export default function SignupScreen() {
             placeholder="Phone Number" 
             keyboardType="phone-pad" 
             placeholderTextColor="#999" 
-            value={phone}
           />
 
           <TextInput
