@@ -115,31 +115,61 @@ export default function ChangePasswordScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FCEBF0', padding: 30 },
-  backButton: { 
-    backgroundColor: '#C4A4A4', width: 40, height: 40, 
-    borderRadius: 20, justifyContent: 'center', alignItems: 'center', marginTop: 30 
-  },
-  logoImage: { 
-    width: 250, 
-    height: 250,
-    marginBottom: 10,
-    alignSelf: 'center',
-  },
-  content: { alignItems: 'center', marginTop: 10 },
-  imagePlaceholder: { width: 150, height: 150, marginBottom: 10, justifyContent: 'center', alignItems: 'center' },
-  title: { fontSize: 28, fontWeight: 'bold', color: '#000' },
-  subtitle: { 
-    textAlign: 'center', color: '#555', marginVertical: 15, 
-    paddingHorizontal: 20, fontSize: 14, fontWeight: '500' 
-  },
-  input: { 
-    backgroundColor: '#ffffff', width: '100%', height: 55, 
-    borderRadius: 15, paddingHorizontal: 20, marginBottom: 15, elevation: 2 
-  },
-  confirmButton: { 
-    backgroundColor: '#B68A8A', width: '100%', height: 60, 
-    borderRadius: 30, justifyContent: 'center', alignItems: 'center', marginTop: 20 
-  },
-  confirmText: { color: 'white', fontWeight: 'bold', fontSize: 16, letterSpacing: 1 }
+  container: { flex: 1,
+     backgroundColor: '#FCEBF0',
+      padding: 30 },
+
+  backButton: { backgroundColor: '#C4A4A4',
+     width: 40,
+      height: 40,
+       borderRadius: 20,
+        justifyContent: 'center',
+         alignItems: 'center',
+          marginTop: 30 },
+
+  logoImage: { width: 250,
+     height: 250,
+      marginBottom: 10,
+       alignSelf: 'center' },
+
+  content: { alignItems: 'center',
+     marginTop: 10 },
+
+  imagePlaceholder: { width: 150,
+     height: 150,
+      marginBottom: 10,
+       justifyContent: 'center',
+        alignItems: 'center' },
+
+  title: { fontSize: 28,
+     fontWeight: 'bold',
+      color: '#000' },
+
+  subtitle: { textAlign: 'center',
+     color: '#555',
+      marginVertical: 15,
+       paddingHorizontal: 20,
+        fontSize: 14,
+         fontWeight: '500' },
+
+  input: { backgroundColor: '#ffffff',
+     width: '100%',
+      height: 55,
+       borderRadius: 15,
+        paddingHorizontal: 20,
+         marginBottom: 15,
+          elevation: 2 },
+
+  confirmButton: { backgroundColor: '#B68A8A',
+     width: '100%',
+      height: 60,
+       borderRadius: 30,
+        justifyContent: 'center',
+         alignItems: 'center',
+          marginTop: 20 },
+
+  confirmText: { color: 'white',
+     fontWeight: 'bold',
+      fontSize: 16,
+       letterSpacing: 1 }
 });

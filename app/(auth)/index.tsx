@@ -19,27 +19,23 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
-  console.log(AuthSession.makeRedirectUri({ native: "jgm-sense://redirect" }));
-
+  console.log(AuthSession.makeRedirectUri({ native: "jgmsense://redirect" }));
 
   // GOOGLE SIGN-IN LOGIC
   const [request, response, promptAsync] = Google.useAuthRequest({
     // Keep your Web Client ID from Firebase
-    webClientId: '626334293602-7pj6k400j6nmsv7qmgl3etsd9mgka1o6.apps.googleusercontent.com',
+    webClientId: '',
 
     // Add the iOS Client ID specifically for your mobile device
-    iosClientId: '626334293602-e5us5lmqfa3vs7qfsd1ck2kq1ioop08c.apps.googleusercontent.com',
+    iosClientId: '',
     
     // Add the Android Client ID specifically for your mobile device
-    androidClientId: '626334293602-98v608vdin0jmel65gl9tnc24r5n5cvf.apps.googleusercontent.com',
+    androidClientId: '',
 
-    // Uses the 'jgm-sense' scheme from your app.json
+    // Uses the 'jgmsense' scheme from your app.json
     redirectUri: AuthSession.makeRedirectUri({
-  native: "jgm-sense://redirect", // for standalone builds
-})
-
-
-
+      native: "jgmsense://redirect", // fixed scheme (no dash)
+    }),
   });
 
   useEffect(() => {
@@ -121,10 +117,9 @@ export default function LoginScreen() {
           style={styles.googleButton} 
           disabled={!request}
           onPress={() => { 
-          // ADD THE OBJECT HERE
-          promptAsync({ showInRecents: true }); 
-        }}>
-        <View style={styles.googleIconPlaceholder} /> 
+            promptAsync({ showInRecents: true }); 
+          }}>
+          <View style={styles.googleIconPlaceholder} /> 
           <Text style={styles.googleButtonText}>Sign in with Google</Text>
         </TouchableOpacity>
 

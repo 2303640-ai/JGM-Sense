@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  Image, 
-  TouchableOpacity, 
-  ScrollView, 
-  SafeAreaView, 
-  StatusBar,
-  TextInput,
-  Alert,
-  KeyboardAvoidingView,
-  Platform
-} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter, Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import {
+  Alert,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
 
 // Import your custom theme hook
 import { useTheme } from '../../context/ThemeContext';

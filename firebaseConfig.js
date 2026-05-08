@@ -3,12 +3,12 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore"; // Add this import
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBusyN-yRkHou80LkVrvsi9cnMFcG1lKWg",
-  authDomain: "jgm-sense.firebaseapp.com",
-  projectId: "jgm-sense",
-  storageBucket: "jgm-sense.firebasestorage.app",
-  messagingSenderId: "73095207538",
-  appId: "1:73095207538:web:72c59b2561afcd661540eb"
+  apiKey: "AIzaSyCfen2YeAMkRqWrhyoQ7t0Oxnjs0zf02pw",
+  authDomain: "jgm-sense-bbed9.firebaseapp.com",
+  projectId: "jgm-sense-bbed9",
+  storageBucket: "jgm-sense-bbed9.firebasestorage.app",
+  messagingSenderId: "864904306291",
+  appId: "1:864904306291:web:852e2c8151067b610e5406"
 };
 
 const app = initializeApp(firebaseConfig);

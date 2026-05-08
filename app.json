@@ -1,14 +1,14 @@
 {
   "expo": {
     "name": "JGM-Sense",
-    "slug": "JGM-Sense",
+    "slug": "jgmsense",
+    "scheme": "jgmsense",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "jgm-sense",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "owners": "jgm-sense",
+    "owners": ["jgm-sense"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.jgmsense.app"

@@ -134,7 +134,7 @@ export default function Dashboard() {
             <Text style={styles.tempLabel}>Real Time{'\n'}Temperature</Text>
             <Text style={styles.tempValue}>40°</Text>
           </View>
-          <TouchableOpacity style={styles.overrideBtn}>
+          <TouchableOpacity style={styles.overrideBtn} onPress={() => router.replace('/(tabs)/Temperature')}>
             <Text style={styles.overrideText}>Override</Text>
           </TouchableOpacity>
         </LinearGradient>

@@ -13,16 +13,15 @@ export default function TabLayout() {
     <ThemeProvider>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: '#FFF', 
+          tabBarActiveTintColor: '#F7A8B8', // Changed to match your app's pink theme, but you can change this back to '#FFF' if you prefer
           tabBarInactiveTintColor: '#C4A4A4', 
           tabBarStyle: {
-            backgroundColor: '#000', 
+            backgroundColor: '#FFFFFF', // Makes the background transparent instead of black
+            position: 'absolute', // Forces the tab bar to float over the screen content on all platforms
             height: 60,
             borderTopWidth: 0,
-            ...Platform.select({
-              ios: { position: 'absolute' }, 
-              default: {},
-            }),
+            elevation: 0, // Removes the drop shadow on Android
+            shadowOpacity: 0, // Removes the drop shadow on iOS
           },
           headerShown: false,
           tabBarButton: HapticTab,
