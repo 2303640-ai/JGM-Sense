@@ -24,13 +24,13 @@ export default function LoginScreen() {
   // GOOGLE SIGN-IN LOGIC
   const [request, response, promptAsync] = Google.useAuthRequest({
     // Keep your Web Client ID from Firebase
-    webClientId: '',
+    webClientId: '864904306291-arr0d17ls2s1j1qnnl195gr9mkvtvg4m.apps.googleusercontent.com',
 
     // Add the iOS Client ID specifically for your mobile device
-    iosClientId: '',
+    iosClientId: '864904306291-arr0d17ls2s1j1qnnl195gr9mkvtvg4m.apps.googleusercontent.com',
     
     // Add the Android Client ID specifically for your mobile device
-    androidClientId: '',
+    androidClientId: '864904306291-5um28d2fkv94uuh7susu7otvv6cpppif.apps.googleusercontent.com',
 
     // Uses the 'jgmsense' scheme from your app.json
     redirectUri: AuthSession.makeRedirectUri({

@@ -1,5 +1,7 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
+import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
@@ -8,6 +10,23 @@ import { ThemeProvider } from '../../context/ThemeContext';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        'Inter-Regular': require('../../assets/fonts/Inter-Regular.ttf'),
+        'Inter-Bold': require('../../assets/fonts/Inter-Bold.ttf'),
+      });
+      setFontLoaded(true);
+    };
+
+    loadFonts();
+  }, []);
+
+  if (!fontLoaded) {
+    return null;
+  }
 
   return (
     <ThemeProvider>
