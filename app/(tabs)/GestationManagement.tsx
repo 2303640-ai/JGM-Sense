@@ -3,9 +3,8 @@ import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Image,
-  KeyboardAvoidingView, // <-- Added this
-  Platform // <-- Added this
-  ,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -17,12 +16,9 @@ import {
 
 export default function GestationManagement() {
   const router = useRouter();
-  
-  // 'input' shows the form, 'list' shows the saved records
   const [viewMode, setViewMode] = useState('list'); 
   const [expandedPig, setExpandedPig] = useState<number | null>(null);
 
-  // This is your mock database. Later, this will come from Firebase.
   const pigRecords = [
     { id: 1, name: "Pig 1", insemination: "01/10/26", status: "Confirmed", movement: "05/01/26", farrowing: "05/08/26" },
     { id: 2, name: "Pig 2", insemination: "02/15/26", status: "Confirmed", movement: "06/07/26", farrowing: "06/14/26" },
@@ -31,20 +27,18 @@ export default function GestationManagement() {
   ];
 
   return (
-    // Wrap the main container in KeyboardAvoidingView to prevent keyboard from overlapping inputs
     <KeyboardAvoidingView 
       style={styles.container} 
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <StatusBar barStyle="dark-content" />
       
-      {/* --- Header Section --- */}
+      {/* --- HEADER --- */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Sow Gestation{"\n"}Management</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {/* Branding Illustration */}
         <Image 
           source={require('./Pig.png')} 
           style={styles.mainIllustration}
@@ -52,7 +46,7 @@ export default function GestationManagement() {
         />
 
         {viewMode === 'input' ? (
-          /* --- DESIGN 1: ADD NEW RECORD --- */
+          /* --- ADD NEW RECORD FORM --- */
           <View style={styles.formContainer}>
             <View style={styles.formHeader}>
               <Text style={styles.formHeaderText}>Add New Record</Text>
@@ -66,7 +60,7 @@ export default function GestationManagement() {
             </View>
           </View>
         ) : (
-          /* --- DESIGN 2: VIEW ALL RECORDS (THE LIST) --- */
+          /* --- RECORDS LIST --- */
           <View style={styles.listContainer}>
             {pigRecords.map((pig) => (
               <View key={pig.id} style={styles.accordionItem}>
@@ -93,11 +87,12 @@ export default function GestationManagement() {
                 )}
               </View>
             ))}
+            <View style={{ height: 50 }} />
           </View>
         )}
       </ScrollView>
 
-      {/* --- Floating Bottom Button --- */}
+      {/* --- FLOATING ACTION BUTTON --- */}
       <TouchableOpacity 
         style={styles.viewToggleBtn} 
         onPress={() => setViewMode(viewMode === 'input' ? 'list' : 'input')}
@@ -111,24 +106,29 @@ export default function GestationManagement() {
 }
 
 const styles = StyleSheet.create({
+  // 1. MAIN LAYOUT
   container: { 
-    flex: 1,
-    backgroundColor: '#FDE9EF'
+    flex: 1, 
+    backgroundColor: '#FDE9EF' 
   },
+  scrollContent: { 
+    paddingHorizontal: 25,
+    alignItems: 'center',
+    paddingBottom: 250 // Ensures content clears the floating button
+  },
+  mainIllustration: { 
+    width: '100%',
+    height: 260,
+    marginVertical: 2 
+  },
+
+  // 2. HEADER STYLES
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingTop: 50,
     paddingHorizontal: 25,
     marginBottom: 10 
-  },
-  backButton: { 
-    width: 45,
-    height: 45,
-    backgroundColor: '#C4A4A4',
-    borderRadius: 22.5,
-    justifyContent: 'center',
-    alignItems: 'center' 
   },
   headerTitle: { 
     fontSize: 30,
@@ -138,21 +138,11 @@ const styles = StyleSheet.create({
     marginTop: 28,
     lineHeight: 28 
   },
-  scrollContent: { 
-    paddingHorizontal: 25,
-    alignItems: 'center',
-    // INCREASED THIS PADDING from 120 to 180 to clear the absolute button
-    paddingBottom: 180 
+
+  // 3. LIST & ACCORDION STYLES
+  listContainer: { 
+    width: '100%' 
   },
-  mainIllustration: { 
-    width: '100%',
-    height: 260,
-    marginVertical: 2 
-  },
-  
-  // List/Accordion Styles
-  listContainer: { width: '100%' },
-  
   accordionItem: { 
     backgroundColor: '#B68A8A',
     borderRadius: 25,
@@ -161,85 +151,71 @@ const styles = StyleSheet.create({
     paddingVertical: 15 
   },
   accordionHeader: { 
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
     alignItems: 'center' 
   },
   accordionTitle: { 
-    color: '#ffffff',
-    fontSize: 20,
+    color: '#ffffff', 
+    fontSize: 20, 
     fontWeight: 'bold' 
   },
   accordionBody: { 
-    backgroundColor: '#FFF',
-    borderRadius: 20,
-    marginTop: 10,
+    backgroundColor: '#FFF', 
+    borderRadius: 20, 
+    marginTop: 10, 
     padding: 15 
   },
   dataRow: { 
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
     marginBottom: 5 
   },
-  label: { 
-    color: '#666',
-    fontSize: 14 
-  },
-  value: { 
-    color: '#B68A8A',
-    fontWeight: 'bold' 
-  },
-  valueHighlight: { 
-    color: '#8B4513',
-    fontWeight: 'bold' 
-  },
-  valueFarrowing: { 
-    color: '#2E8B57',
-    fontWeight: 'bold' 
-  },
+  label: { color: '#666', fontSize: 14 },
+  value: { color: '#B68A8A', fontWeight: 'bold' },
+  valueHighlight: { color: '#8B4513', fontWeight: 'bold' },
+  valueFarrowing: { color: '#2E8B57', fontWeight: 'bold' },
 
-  // Form Styles
+  // 4. FORM STYLES
   formContainer: { 
-    width: '100%',
-    backgroundColor: '#B68A8A',
-    borderRadius: 30,
-    overflow: 'hidden',
-    paddingHorizontal: 0 
+    width: '100%', 
+    backgroundColor: '#B68A8A', 
+    borderRadius: 30, 
+    overflow: 'hidden' 
   },
   formHeader: { 
-    paddingVertical: 20,
+    paddingVertical: 20, 
     alignItems: 'center' 
   },
   formHeaderText: { 
-    // Removed 'SF-Pro-Bold' unless you have custom fonts loaded, fallback to native weight
-    color: '#FFF',
-    fontSize: 18,
+    color: '#FFF', 
+    fontSize: 18, 
     fontWeight: 'bold' 
   },
   inputBody: { 
-    padding: 20,
+    padding: 20, 
     alignItems: 'center' 
   },
   input: { 
-    backgroundColor: '#FFF',
-    width: '100%',
-    height: 50,
-    borderRadius: 15,
-    paddingHorizontal: 15,
+    backgroundColor: '#FFF', 
+    width: '100%', 
+    height: 50, 
+    borderRadius: 15, 
+    paddingHorizontal: 15, 
     marginBottom: 15 
   },
   saveButtonInner: { 
-    backgroundColor: '#C4A4A4',
-    paddingVertical: 10,
-    paddingHorizontal: 40,
+    backgroundColor: '#C4A4A4', 
+    paddingVertical: 10, 
+    paddingHorizontal: 40, 
     borderRadius: 20 
   },
   saveButtonText: { 
-    color: '#FFF',
+    color: '#FFF', 
     fontWeight: 'bold' 
   },
 
-  // Footer Button
+  // 5. FLOATING TOGGLE BUTTON
   viewToggleBtn: { 
     backgroundColor: '#B68A8A',
     height: 60,
@@ -249,11 +225,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 95, 
     left: 25,
-    right: 25 
+    right: 25,
+    // Android Shadow
+    elevation: 5, 
+    // iOS Shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   buttonText: { 
-    color: '#FFF',
-    fontWeight: 'bold',
+    color: '#FFF', 
+    fontWeight: 'bold', 
     fontSize: 16 
   }
 });

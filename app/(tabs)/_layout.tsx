@@ -1,52 +1,46 @@
 import { Tabs } from 'expo-router';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
-import { useEffect, useState } from 'react';
-import { Platform } from 'react-native';
+import { useEffect } from 'react';
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { ThemeProvider } from '../../context/ThemeContext'; 
+import { Inter_400Regular, Inter_700Bold, useFonts } from '@expo-google-fonts/inter';
+import * as SplashScreen from 'expo-splash-screen'; // Fix: Import as *
+
+// Keep splash screen visible while loading fonts
+SplashScreen.preventAutoHideAsync();
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const [fontLoaded, setFontLoaded] = useState(false);
+  const [fontsLoaded, error] = useFonts({
+    'Inter-Regular': Inter_400Regular,
+    'Inter-Bold': Inter_700Bold,
+  });
 
   useEffect(() => {
-    const loadFonts = async () => {
-      await Font.loadAsync({
-        'Inter-Regular': require('../../assets/fonts/Inter-Regular.ttf'),
-        'Inter-Bold': require('../../assets/fonts/Inter-Bold.ttf'),
-      });
-      setFontLoaded(true);
-    };
+    if (error) throw error;
+    if (fontsLoaded) SplashScreen.hideAsync();
+  }, [fontsLoaded, error]);
 
-    loadFonts();
-  }, []);
-
-  if (!fontLoaded) {
-    return null;
-  }
+  if (!fontsLoaded) return null;
 
   return (
     <ThemeProvider>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: '#F7A8B8', // Changed to match your app's pink theme, but you can change this back to '#FFF' if you prefer
+          tabBarActiveTintColor: '#F7A8B8', 
           tabBarInactiveTintColor: '#C4A4A4', 
           tabBarStyle: {
-            backgroundColor: '#FFFFFF', // Makes the background transparent instead of black
-            position: 'absolute', // Forces the tab bar to float over the screen content on all platforms
+            backgroundColor: '#FFFFFF', 
+            position: 'absolute', 
             height: 60,
             borderTopWidth: 0,
-            elevation: 0, // Removes the drop shadow on Android
-            shadowOpacity: 0, // Removes the drop shadow on iOS
+            elevation: 0, 
+            shadowOpacity: 0, 
           },
           headerShown: false,
-          tabBarButton: HapticTab,
+          tabBarButton: (props) => <HapticTab {...props} />, // Ensure this is a function returning a component
         }}>
-
-        {/* --- SCREEN 1: LIVE --- */}
         <Tabs.Screen
           name="LiveFeed"
           options={{
@@ -54,8 +48,6 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => <IconSymbol size={28} name="tv" color={color} />,
           }}
         />
-
-        {/* --- SCREEN 2: GESTATION --- */}
         <Tabs.Screen
           name="GestationManagement"
           options={{
@@ -63,8 +55,6 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => <IconSymbol size={28} name="heart.fill" color={color} />,
           }}
         />
-
-        {/* --- SCREEN 3: HOME (CENTER) --- */}
         <Tabs.Screen
           name="dashboard"
           options={{
@@ -72,8 +62,6 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
           }}
         />
-
-        {/* --- SCREEN 4: TEMP --- */}
         <Tabs.Screen
           name="Temperature"
           options={{
@@ -81,8 +69,6 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => <IconSymbol size={28} name="thermometer" color={color} />,
           }}
         />
-
-        {/* --- SCREEN 5: ACCOUNT --- */}
         <Tabs.Screen
           name="Account"
           options={{
@@ -90,8 +76,7 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.circle" color={color} />,
           }}
         />
-
-        {/* --- HIDDEN SUB-PAGES (NO ICONS) --- */}
+        {/* Hidden Screens */}
         <Tabs.Screen name="index" options={{ href: null }} />
         <Tabs.Screen name="Registration" options={{ href: null }} />
         <Tabs.Screen name="ProfileScreen" options={{ href: null }} />
@@ -106,7 +91,6 @@ export default function TabLayout() {
         <Tabs.Screen name="profile" options={{ href: null }} />
         <Tabs.Screen name="settings" options={{ href: null }} />
         <Tabs.Screen name="terms-and-conditions" options={{ href: null }} />
-
       </Tabs>
     </ThemeProvider>
   );
