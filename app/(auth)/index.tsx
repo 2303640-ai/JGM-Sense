@@ -3,7 +3,6 @@ import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Alert, Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-// FIREBASE & AUTH PROVIDERS
 import * as AuthSession from "expo-auth-session";
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
@@ -18,23 +17,13 @@ export default function LoginScreen() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  console.log(AuthSession.makeRedirectUri({ native: "jgmsense://redirect" }));
 
-  // GOOGLE SIGN-IN LOGIC
   const [request, response, promptAsync] = Google.useAuthRequest({
-    // Keep your Web Client ID from Firebase
     webClientId: '864904306291-arr0d17ls2s1j1qnnl195gr9mkvtvg4m.apps.googleusercontent.com',
-
-    // Add the iOS Client ID specifically for your mobile device
     iosClientId: '864904306291-arr0d17ls2s1j1qnnl195gr9mkvtvg4m.apps.googleusercontent.com',
-    
-    // Add the Android Client ID specifically for your mobile device
     androidClientId: '864904306291-5um28d2fkv94uuh7susu7otvv6cpppif.apps.googleusercontent.com',
-
-    // Uses the 'jgmsense' scheme from your app.json
     redirectUri: AuthSession.makeRedirectUri({
-      native: "jgmsense://redirect", // fixed scheme (no dash)
+      native: "jgmsense://redirect",
     }),
   });
 
@@ -48,7 +37,6 @@ export default function LoginScreen() {
     }
   }, [response]);
 
-  // EMAIL/PASSWORD LOGIN
   const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Missing Fields", "Please enter both email and password.");
@@ -64,7 +52,6 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.mainContainer}>
-      {/* HEADER SECTION */}
       <View style={styles.topSection}>
         <Image 
           source={require('./JGMLogo.png')} 
@@ -75,7 +62,6 @@ export default function LoginScreen() {
         <Text style={styles.subText}>Welcome to JGM-Sense</Text>
       </View>
 
-      {/* INTERACTION CARD */}
       <View style={styles.whiteCard}>
         <Text style={styles.loginHeader}>Login</Text>
 
@@ -112,14 +98,15 @@ export default function LoginScreen() {
           <View style={styles.line} />
         </View>
 
-        {/* Social Authentication: Google Sign-in */}
+        {/* --- GOOGLE SIGN IN BUTTON --- */}
         <TouchableOpacity 
           style={styles.googleButton} 
           disabled={!request}
           onPress={() => { 
             promptAsync({ showInRecents: true }); 
           }}>
-          <View style={styles.googleIconPlaceholder} /> 
+          {/* Use require directly here to avoid TypeScript module errors */}
+          <Image source={require('./GoogleIcon.png')} style={styles.googleIcon} /> 
           <Text style={styles.googleButtonText}>Sign in with Google</Text>
         </TouchableOpacity>
 
@@ -134,19 +121,9 @@ export default function LoginScreen() {
   );
 }
 
-// --- ORGANIZED STYLESHEET ---
 const styles = StyleSheet.create({
-  // 1. LAYOUT CONTAINERS
-  mainContainer: { 
-    flex: 1, 
-    backgroundColor: '#EE9CA7' 
-  },
-  topSection: { 
-    height: height * 0.38, 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    paddingHorizontal: 30 
-  },
+  mainContainer: { flex: 1, backgroundColor: '#EE9CA7' },
+  topSection: { height: height * 0.38, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 30 },
   whiteCard: { 
     flex: 1, 
     backgroundColor: '#FFF', 
@@ -160,60 +137,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
   },
-
-  // 2. HEADER & BRANDING
-  logoImage: { 
-    width: 150, 
-    height: 150,
-    marginBottom: 10 
-  },
-  welcomeText: { 
-    fontSize: 36, 
-    fontWeight: 'bold', 
-    color: '#fff' 
-  },
-  subText: { 
-    fontSize: 16, 
-    color: '#fff', 
-    opacity: 0.8 
-  },
-  loginHeader: { 
-    fontSize: 24, 
-    fontWeight: 'bold', 
-    color: '#EE9CA7', 
-    marginBottom: 20 
-  },
-
-  // 3. FORM INPUTS
-  input: { 
-    backgroundColor: '#fff', 
-    height: 55, 
-    borderRadius: 15, 
-    paddingHorizontal: 20, 
-    marginBottom: 15, 
-    borderWidth: 1, 
-    borderColor: '#ffd7d7' 
-  },
-  forgotText: { 
-    textAlign: 'right', 
-    color: '#EE9CA7', 
-    marginBottom: 20, 
-    fontWeight: '500' 
-  },
-
-  // 4. BUTTONS (PRIMARY & SOCIAL)
-  loginButton: { 
-    backgroundColor: '#EE9CA7', 
-    height: 55, 
-    borderRadius: 15, 
-    justifyContent: 'center', 
-    alignItems: 'center' 
-  },
-  loginButtonText: { 
-    color: '#fff', 
-    fontSize: 18, 
-    fontWeight: 'bold' 
-  },
+  logoImage: { width: 150, height: 150, marginBottom: 10 },
+  welcomeText: { fontSize: 36, fontWeight: 'bold', color: '#fff' },
+  subText: { fontSize: 16, color: '#fff', opacity: 0.8 },
+  loginHeader: { fontSize: 24, fontWeight: 'bold', color: '#EE9CA7', marginBottom: 20 },
+  input: { backgroundColor: '#fff', height: 55, borderRadius: 15, paddingHorizontal: 20, marginBottom: 15, borderWidth: 1, borderColor: '#ffd7d7' },
+  forgotText: { textAlign: 'right', color: '#EE9CA7', marginBottom: 20, fontWeight: '500' },
+  loginButton: { backgroundColor: '#EE9CA7', height: 55, borderRadius: 15, justifyContent: 'center', alignItems: 'center' },
+  loginButtonText: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
+  
   googleButton: { 
     flexDirection: 'row', 
     backgroundColor: '#fff', 
@@ -224,45 +156,18 @@ const styles = StyleSheet.create({
     borderWidth: 1, 
     borderColor: '#DDD' 
   },
-  googleButtonText: { 
-    color: '#555', 
-    fontSize: 16, 
-    fontWeight: '600' 
-  },
-  googleIconPlaceholder: { 
-    width: 20, 
-    height: 20, 
-    backgroundColor: '#DB4437', 
-    marginRight: 10, 
-    borderRadius: 4 
+  googleButtonText: { color: '#555', fontSize: 16, fontWeight: '600' },
+  googleIcon: { 
+    width: 24, 
+    height: 24, 
+    marginRight: 12,
+    resizeMode: 'contain'
   },
 
-  // 5. DIVIDERS & FOOTER
-  dividerRow: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    marginVertical: 20 
-  },
-  line: { 
-    flex: 1, 
-    height: 1, 
-    backgroundColor: '#DDD' 
-  },
-  orText: { 
-    marginHorizontal: 10, 
-    color: '#999', 
-    fontSize: 14 
-  },
-  signupRow: { 
-    flexDirection: 'row', 
-    justifyContent: 'center', 
-    marginTop: 25 
-  },
-  noAccountText: { 
-    color: '#666' 
-  },
-  signupText: { 
-    color: '#EE9CA7', 
-    fontWeight: 'bold' 
-  },
+  dividerRow: { flexDirection: 'row', alignItems: 'center', marginVertical: 20 },
+  line: { flex: 1, height: 1, backgroundColor: '#DDD' },
+  orText: { marginHorizontal: 10, color: '#999', fontSize: 14 },
+  signupRow: { flexDirection: 'row', justifyContent: 'center', marginTop: 25 },
+  noAccountText: { color: '#666' },
+  signupText: { color: '#EE9CA7', fontWeight: 'bold' },
 });

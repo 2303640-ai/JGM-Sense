@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import { useEffect } from 'react';
 import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { ThemeProvider } from '../../context/ThemeContext'; 
 import { Inter_400Regular, Inter_700Bold, useFonts } from '@expo-google-fonts/inter';
@@ -45,35 +45,35 @@ export default function TabLayout() {
           name="LiveFeed"
           options={{
             title: 'Live',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="tv" color={color} />,
+            tabBarIcon: ({ color }) => <Ionicons size={28} name="tv" color={color} />,
           }}
         />
         <Tabs.Screen
           name="GestationManagement"
           options={{
             title: 'Gestation',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="heart.fill" color={color} />,
+            tabBarIcon: ({ color }) => <Ionicons size={28} name="heart" color={color} />,
           }}
         />
         <Tabs.Screen
           name="dashboard"
           options={{
             title: 'Home',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+            tabBarIcon: ({ color }) => <Ionicons size={28} name="home" color={color} />,
           }}
         />
         <Tabs.Screen
           name="Temperature"
           options={{
             title: 'Temp',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="thermometer" color={color} />,
+            tabBarIcon: ({ color }) => <Ionicons size={28} name="thermometer" color={color} />,
           }}
         />
         <Tabs.Screen
           name="Account"
           options={{
             title: 'Account',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.circle" color={color} />,
+            tabBarIcon: ({ color }) => <Ionicons size={28} name="person" color={color} />,
           }}
         />
         {/* Hidden Screens */}
